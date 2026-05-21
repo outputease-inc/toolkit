@@ -1,0 +1,105 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun install)",
+      "Bash(bun run *)",
+      "Bash(bun add *)",
+      "Bash(bun remove *)",
+      "Bash(bun test *)",
+      "Bash(bunx tsc *)",
+      "Bash(bunx @biomejs/biome *)",
+      "Bash(bunx drizzle-kit *)",
+      "Bash(bunx shadcn *)",
+      "Bash(bunx turbo *)",
+      "Bash(bunx commitlint *)",
+      "Bash(bunx simple-git-hooks)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git branch *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git checkout *)",
+      "Bash(git stash *)",
+      "Bash(git push origin HEAD:refs/heads/*)",
+      "Bash(git push --set-upstream origin *)",
+      "Bash(git push origin --delete *)",
+      "Bash(mkdir *)"
+    ],
+    "deny": ["Bash(git push * main)", "Bash(git push * master)"]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/protect-sensitive.js",
+            "timeout": 5,
+            "statusMessage": "Checking file safety..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/prevent-barrel-bypass.js",
+            "timeout": 5,
+            "statusMessage": "Checking import paths..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/protect-sensitive-bash.js",
+            "timeout": 5,
+            "statusMessage": "Checking command safety..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/auto-format.js",
+            "timeout": 15,
+            "statusMessage": "Auto-formatting with Biome..."
+          },
+          {
+            "type": "command",
+            "command": "node .claude/hooks/record-edits.js",
+            "timeout": 5,
+            "statusMessage": "Recording edit for batched verify..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/batch-typecheck.js",
+            "timeout": 60,
+            "statusMessage": "Running batched typecheck..."
+          },
+          {
+            "type": "command",
+            "command": "node .claude/hooks/batch-test.js",
+            "timeout": 45,
+            "statusMessage": "Running batched tests..."
+          }
+        ]
+      }
+    ]
+  }
+}

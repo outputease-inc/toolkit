@@ -1,0 +1,12 @@
+import type { CapacitorConfig } from "@capacitor/cli";
+
+const config: CapacitorConfig = {
+  appId: "com.example.<%= it.projectName.replace(/[^a-zA-Z0-9]/g, '') %>",
+  appName: "<%= it.projectName %>",
+  webDir: "dist",
+  server: {
+    androidScheme: "https",
+  },
+};
+
+export default config;

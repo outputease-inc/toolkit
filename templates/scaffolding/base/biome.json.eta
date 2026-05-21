@@ -1,0 +1,88 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "warn"
+      },
+      "correctness": {
+<% if (["next.js", "capacitor", "tauri"].includes(it.frameworkConfig.framework)) { %>
+        "useExhaustiveDependencies": "warn",
+<% } %>
+        "noUnusedImports": "error",
+        "noUnusedVariables": "warn"
+      },
+      "style": {
+        "useConst": "error",
+        "noNonNullAssertion": "warn"
+      },
+      "suspicious": {
+<% if (it.frameworkConfig.framework === "bun-cli") { %>
+        "noConsole": "off",
+<% } else { %>
+        "noConsole": "warn",
+<% } %>
+        "noExplicitAny": "warn"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "semicolons": "always",
+      "trailingCommas": "all",
+      "arrowParentheses": "always"
+    }
+  },
+<% if (["next.js", "astro", "capacitor", "tauri"].includes(it.frameworkConfig.framework)) { %>
+  "css": {
+    "parser": {
+      "cssModules": true,
+      "tailwindDirectives": true
+    },
+    "linter": {
+      "enabled": true
+    },
+    "formatter": {
+      "enabled": true
+    }
+  },
+<% } %>
+  "json": {
+    "formatter": {
+      "trailingCommas": "none"
+    }
+  },
+  "files": {
+    "includes": [
+      "**",
+      "!node_modules",
+      "!dist",
+<% if (it.frameworkConfig.framework === "next.js") { %>
+      "!.next",
+<% } %>
+<% if (it.frameworkConfig.framework === "astro") { %>
+      "!.astro",
+<% } %>
+      "!coverage",
+      "!*.gen.ts",
+      "!*.generated.ts"
+    ]
+  }
+}

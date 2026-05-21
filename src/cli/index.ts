@@ -1,0 +1,50 @@
+#!/usr/bin/env bun
+import { Command } from "@commander-js/extra-typings";
+import pkg from "../../package.json" with { type: "json" };
+import { initAction } from "./init";
+import { updateAction } from "./update";
+
+const program = new Command()
+  .name("outputease")
+  .description("OutputEase CLI toolkit for scaffolding development projects")
+  .version(pkg.version);
+
+program
+  .command("update")
+  .description("Refresh Claude Code + spec-kit tooling in an existing scaffolded project")
+  .option("--yes", "Non-interactive: skip every locally-modified file by default", false)
+  .option("--dry-run", "Print planned actions without writing to the project", false)
+  .option("--verbose", "Emit per-file diffs and timing info", false)
+  .action(async (opts) => {
+    const result = await updateAction(process.cwd(), {
+      yes: opts.yes ?? false,
+      dryRun: opts.dryRun ?? false,
+      verbose: opts.verbose ?? false,
+    });
+    process.exit(result.exitCode);
+  });
+
+program
+  .command("init")
+  .description("Scaffold a new project interactively or from a preset")
+  .argument("[name]", "Project name")
+  .option("--preset <name>", "Use a predefined stack preset")
+  .option("-n, --name <name>", "Project name (alternative to argument)")
+  .option("--pm <manager>", "Package manager: bun, npm, yarn, pnpm", "bun")
+  .option("--dry-run", "Preview file tree without writing to disk", false)
+  .option("--claude", "Include Claude Code infrastructure without prompting")
+  .option("--no-claude", "Skip Claude Code infrastructure")
+  .option("--uv", "Install uv (Python package manager) without prompting")
+  .option("--no-uv", "Skip uv installation (also skips spec-kit)")
+  .option("--speckit", "Include spec-kit without prompting")
+  .option("--no-speckit", "Skip spec-kit installation")
+  .option("--runtime <runtime>", "Runtime: bun, node")
+  .option("--backend <backend>", "Backend: none, supabase, standalone")
+  .option(
+    "--scope <scope>",
+    "Project scope: standalone, workspace-app, workspace-package, monorepo",
+  )
+  .option("--no-banner", "Skip the startup banner")
+  .action(initAction);
+
+program.parse();
