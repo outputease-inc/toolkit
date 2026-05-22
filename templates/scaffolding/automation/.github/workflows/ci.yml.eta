@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  commitlint:
+    name: Lint Commits
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+<%~ include("/partials/ci-setup", it) %>
+      - name: Validate PR commits
+        run: <%= it.pm.exec %> commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+  check:
+    name: Biome Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+<%~ include("/partials/ci-setup", it) %>
+      - name: Biome lint + format
+        run: <%= it.pm.run %> lint
+
+  typecheck:
+    name: TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+<%~ include("/partials/ci-setup", it) %>
+      - name: Type check
+        run: <%= it.pm.run %> typecheck
+<% if (it.pm.name === "bun") { %>
+
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+<%~ include("/partials/ci-setup", it) %>
+      - name: Run tests
+        run: bun test
+<% } %>

@@ -1,0 +1,44 @@
+{
+  "permissions": {
+    "allow": [
+<% if (it.pm.name === "bun") { %>
+      "Bash(bun install)",
+      "Bash(bun test)",
+      "Bash(bun run dev)",
+      "Bash(bun run build)",
+      "Bash(bun run lint)",
+      "Bash(bun run format)",
+      "Bash(bun run typecheck)",
+      "Bash(bunx biome check *)"
+<% } else if (it.pm.name === "npm") { %>
+      "Bash(npm install)",
+      "Bash(npm test)",
+      "Bash(npm run dev)",
+      "Bash(npm run build)",
+      "Bash(npm run lint)",
+      "Bash(npm run format)",
+      "Bash(npm run typecheck)",
+      "Bash(npx biome check *)"
+<% } else if (it.pm.name === "yarn") { %>
+      "Bash(yarn install)",
+      "Bash(yarn test)",
+      "Bash(yarn dev)",
+      "Bash(yarn build)",
+      "Bash(yarn lint)",
+      "Bash(yarn format)",
+      "Bash(yarn typecheck)",
+      "Bash(yarn dlx biome check *)"
+<% } else if (it.pm.name === "pnpm") { %>
+      "Bash(pnpm install)",
+      "Bash(pnpm test)",
+      "Bash(pnpm run dev)",
+      "Bash(pnpm run build)",
+      "Bash(pnpm run lint)",
+      "Bash(pnpm run format)",
+      "Bash(pnpm run typecheck)",
+      "Bash(pnpm dlx biome check *)"
+<% } %>
+    ],
+    "deny": []
+  }
+}

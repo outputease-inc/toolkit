@@ -1,0 +1,75 @@
+{
+  "name": "@outputease/toolkit",
+  "version": "0.2.3",
+  "releaseDate": "2026-05-20",
+  "description": "Batteries-included CLI that scaffolds development projects with first-class AI-assisted development support",
+  "license": "MIT",
+  "author": "OutputEase Inc.",
+  "homepage": "https://github.com/outputease-inc/toolkit#readme",
+  "bugs": {
+    "url": "https://github.com/outputease-inc/toolkit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/outputease-inc/toolkit.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "bin": {
+    "outputease": "./src/cli/index.ts",
+    "outputease-update": "./src/cli/update.ts",
+    "outputease-validate": "./src/audit/validate-dev-stacks.ts",
+    "outputease-validate-agents": "./src/audit/validate-agent-stacks.ts"
+  },
+  "files": [
+    "src/",
+    "data/",
+    "templates/",
+    "scripts/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./dev-stacks": {
+      "types": "./src/data/dev-stacks-loader.ts",
+      "default": "./src/data/dev-stacks-loader.ts"
+    },
+    "./agent-stacks": {
+      "types": "./src/data/agent-stacks-loader.ts",
+      "default": "./src/data/agent-stacks-loader.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint ./src",
+    "format": "biome format ./src",
+    "check": "biome check ./src",
+    "test": "bun test",
+    "validate": "bun run src/audit/validate-dev-stacks.ts && bun run src/audit/validate-agent-stacks.ts",
+    "validate:dev-stacks": "bun run src/audit/validate-dev-stacks.ts",
+    "validate:agent-stacks": "bun run src/audit/validate-agent-stacks.ts",
+    "generate:schema": "bun run scripts/generate-schema.ts && bun run scripts/generate-agent-schema.ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.0.1",
+    "@commander-js/extra-typings": "^14.0.0",
+    "commander": "^14.0.0",
+    "diff": "^8.0.0",
+    "eta": "^4.0.0",
+    "picocolors": "^1.1.0",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.0",
+    "@types/diff": "^8.0.0",
+    "@types/node": "25.6.0"
+  }
+}

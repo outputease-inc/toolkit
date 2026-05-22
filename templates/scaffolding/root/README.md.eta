@@ -1,0 +1,90 @@
+# <%= it.projectName %>
+
+[PROJECT_DESCRIPTION]
+
+## Quick Start
+
+### Prerequisites
+
+- <%= it.runtime %> >= [RUNTIME_VERSION]
+- <%= it.pm.name %> >= [PACKAGE_MANAGER_VERSION]
+- [ADDITIONAL_PREREQUISITES_OR_REMOVE]
+
+### Installation
+
+```bash
+# Clone the repository
+git clone [REPO_URL]
+cd <%= it.projectName %>
+
+# Install dependencies
+<%= it.installCommand %>
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your local values (see ./docs/environment.md)
+
+# Start development
+<%= it.devCommand %>
+```
+
+### Development Commands
+
+| Command | Purpose |
+|---------|---------|
+| `<%= it.devCommand %>` | Start dev server |
+| `<%= it.buildCommand %>` | Build for production |
+| `<%= it.testCommand %>` | Run test suite |
+| `<%= it.lintCommand %>` | Lint and format code |
+
+## Features
+
+- [FEATURE_1]
+- [FEATURE_2]
+- [FEATURE_3]
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Framework | <%= it.framework %> |
+| Language | <%= it.language %> |
+| Styling | [STYLING] |
+| Database | [DATABASE_OR_REMOVE] |
+| Auth | [AUTH_PROVIDER_OR_REMOVE] |
+| Hosting | [HOSTING_PROVIDER] |
+
+## Project Structure
+
+```
+<%= it.projectName %>/
+├── [SOURCE_DIR]/          # Application source code
+│   ├── [COMPONENTS_DIR]/  # UI components
+│   ├── [PAGES_DIR]/       # Page/route definitions
+│   ├── [LIB_DIR]/         # Shared utilities and helpers
+│   └── [STYLES_DIR]/      # Global styles and tokens
+├── [PUBLIC_DIR]/           # Static assets
+├── [TEST_DIR]/             # Test files
+├── docs/                   # Project documentation
+└── .claude/                # Claude Code configuration
+```
+
+## Documentation
+
+See `./INDEX.md` for a complete documentation index covering architecture, APIs, environment setup, conventions, and more.
+
+## Contributing
+
+See `./CONTRIBUTING.md` for development setup, branch conventions, commit format, and PR process.
+
+## Security
+
+To report a vulnerability, see `./SECURITY.md`. Do not open public issues for security concerns.
+
+## License
+
+<%= it.licenseType %> -- see `./LICENSE` for details. <!-- Create a LICENSE file for your project (e.g., MIT, Apache-2.0) -->
+
+## Changelog
+
+See `./CHANGELOG.md` for version history and release notes.

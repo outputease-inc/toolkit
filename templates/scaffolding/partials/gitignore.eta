@@ -1,0 +1,38 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+build/
+.next/
+out/
+<% if (it.frameworkConfig.framework === "astro") { %>.astro/
+<% } %><% if (it.frameworkConfig.framework === "tauri") { %>src-tauri/target/
+<% } %><% if (it.frameworkConfig.framework === "capacitor") { %>android/
+ios/
+<% } %>
+# environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# debug
+*.log
+npm-debug.log*
+
+# test coverage
+coverage/
+
+# lock files (keep only the chosen PM's lockfile)
+<% if (it.pm.name !== "bun") { %>bun.lock<% } %>
+<% if (it.pm.name !== "npm") { %>package-lock.json<% } %>
+<% if (it.pm.name !== "yarn") { %>yarn.lock<% } %>
+<% if (it.pm.name !== "pnpm") { %>pnpm-lock.yaml<% } %>
