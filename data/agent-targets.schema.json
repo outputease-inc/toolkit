@@ -1,0 +1,416 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "enum": [
+          "claude",
+          "codex",
+          "gemini",
+          "opencode",
+          "cursor",
+          "copilot",
+          "windsurf"
+        ],
+        "description": "Supported agent target id (primary key; extensible enum)"
+      },
+      "displayName": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100
+      },
+      "bucket": {
+        "type": "string",
+        "enum": [
+          "cli",
+          "ide"
+        ],
+        "description": "Delivery bucket: CLI agent or IDE agent"
+      },
+      "phase": {
+        "type": "string",
+        "enum": [
+          "dogfood",
+          "toolkit"
+        ],
+        "description": "Delivery sequencing: monorepo-first (dogfood) vs published-surface (toolkit)"
+      },
+      "instructions": {
+        "type": "object",
+        "properties": {
+          "agentsMdSupport": {
+            "type": "string",
+            "enum": [
+              "native",
+              "bridge",
+              "none"
+            ],
+            "description": "How the target discovers AGENTS.md"
+          },
+          "bridge": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "emitter": {
+                    "type": "string",
+                    "enum": [
+                      "instructions-agentsmd",
+                      "instructions-claudemd",
+                      "instructions-gemini-settings",
+                      "instructions-mdc-rule",
+                      "instructions-windsurf-rule",
+                      "instructions-copilot-md",
+                      "instructions-opencode-json",
+                      "mcp-json-mcpServers",
+                      "mcp-json-servers",
+                      "mcp-toml-codex",
+                      "mcp-opencode-json",
+                      "mcp-gemini-settings",
+                      "mcp-devin-json",
+                      "commands-toml-gemini",
+                      "commands-md-opencode",
+                      "skills-copy",
+                      "claude-passthrough"
+                    ],
+                    "description": "Output format family an emitter is keyed by"
+                  }
+                },
+                "required": [
+                  "file",
+                  "emitter"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "addendum": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "placement": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "emitter": {
+                    "type": "string",
+                    "enum": [
+                      "instructions-agentsmd",
+                      "instructions-claudemd",
+                      "instructions-gemini-settings",
+                      "instructions-mdc-rule",
+                      "instructions-windsurf-rule",
+                      "instructions-copilot-md",
+                      "instructions-opencode-json",
+                      "mcp-json-mcpServers",
+                      "mcp-json-servers",
+                      "mcp-toml-codex",
+                      "mcp-opencode-json",
+                      "mcp-gemini-settings",
+                      "mcp-devin-json",
+                      "commands-toml-gemini",
+                      "commands-md-opencode",
+                      "skills-copy",
+                      "claude-passthrough"
+                    ],
+                    "description": "Output format family an emitter is keyed by"
+                  },
+                  "charLimit": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "placement",
+                  "emitter"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "agentsMdSupport",
+          "bridge",
+          "addendum"
+        ],
+        "additionalProperties": false
+      },
+      "mcp": {
+        "type": "object",
+        "properties": {
+          "emit": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "family": {
+                    "type": "string",
+                    "enum": [
+                      "instructions-agentsmd",
+                      "instructions-claudemd",
+                      "instructions-gemini-settings",
+                      "instructions-mdc-rule",
+                      "instructions-windsurf-rule",
+                      "instructions-copilot-md",
+                      "instructions-opencode-json",
+                      "mcp-json-mcpServers",
+                      "mcp-json-servers",
+                      "mcp-toml-codex",
+                      "mcp-opencode-json",
+                      "mcp-gemini-settings",
+                      "mcp-devin-json",
+                      "commands-toml-gemini",
+                      "commands-md-opencode",
+                      "skills-copy",
+                      "claude-passthrough"
+                    ],
+                    "description": "Output format family an emitter is keyed by"
+                  }
+                },
+                "required": [
+                  "path",
+                  "family"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "scopeCaveat": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "userGlobal": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "family": {
+                    "type": "string",
+                    "enum": [
+                      "instructions-agentsmd",
+                      "instructions-claudemd",
+                      "instructions-gemini-settings",
+                      "instructions-mdc-rule",
+                      "instructions-windsurf-rule",
+                      "instructions-copilot-md",
+                      "instructions-opencode-json",
+                      "mcp-json-mcpServers",
+                      "mcp-json-servers",
+                      "mcp-toml-codex",
+                      "mcp-opencode-json",
+                      "mcp-gemini-settings",
+                      "mcp-devin-json",
+                      "commands-toml-gemini",
+                      "commands-md-opencode",
+                      "skills-copy",
+                      "claude-passthrough"
+                    ],
+                    "description": "Output format family an emitter is keyed by"
+                  }
+                },
+                "required": [
+                  "path",
+                  "family"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "emit",
+          "scopeCaveat",
+          "userGlobal"
+        ],
+        "additionalProperties": false
+      },
+      "skills": {
+        "type": "object",
+        "properties": {
+          "readsAgentsSkillsDir": {
+            "type": "boolean"
+          },
+          "copyPath": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "argPlaceholder": {
+            "type": "string",
+            "enum": [
+              "$ARGUMENTS",
+              "{{args}}",
+              "free-text",
+              "input-vars"
+            ],
+            "description": "Argument substitution dialect for user-invoked skills"
+          },
+          "wrapper": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "dir": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "family": {
+                    "type": "string",
+                    "enum": [
+                      "instructions-agentsmd",
+                      "instructions-claudemd",
+                      "instructions-gemini-settings",
+                      "instructions-mdc-rule",
+                      "instructions-windsurf-rule",
+                      "instructions-copilot-md",
+                      "instructions-opencode-json",
+                      "mcp-json-mcpServers",
+                      "mcp-json-servers",
+                      "mcp-toml-codex",
+                      "mcp-opencode-json",
+                      "mcp-gemini-settings",
+                      "mcp-devin-json",
+                      "commands-toml-gemini",
+                      "commands-md-opencode",
+                      "skills-copy",
+                      "claude-passthrough"
+                    ],
+                    "description": "Output format family an emitter is keyed by"
+                  }
+                },
+                "required": [
+                  "dir",
+                  "family"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "descriptionCharLimit": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "readsAgentsSkillsDir",
+          "copyPath",
+          "argPlaceholder",
+          "wrapper",
+          "descriptionCharLimit"
+        ],
+        "additionalProperties": false
+      },
+      "capabilities": {
+        "type": "object",
+        "properties": {
+          "toolRestriction": {
+            "type": "boolean"
+          },
+          "modelInvocationControl": {
+            "type": "boolean"
+          },
+          "subagents": {
+            "type": "boolean"
+          },
+          "hooks": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "toolRestriction",
+          "modelInvocationControl",
+          "subagents",
+          "hooks"
+        ],
+        "additionalProperties": false
+      },
+      "docsUrl": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "asOf": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      },
+      "notes": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "required": [
+      "id",
+      "displayName",
+      "bucket",
+      "phase",
+      "instructions",
+      "mcp",
+      "skills",
+      "capabilities",
+      "docsUrl",
+      "asOf",
+      "notes"
+    ],
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,21 @@
+/** @type {import("@commitlint/types").UserConfig} */
+export default {
+  extends: ["@commitlint/config-conventional"],
+  rules: {
+    "scope-enum": [
+      2,
+      "always",
+      [
+<% if (it.scope === "monorepo") { %>
+        "web",
+        "config-typescript",
+<% } %>
+        "deps",
+        "release",
+      ],
+    ],
+    "scope-empty": [0],
+    "header-max-length": [2, "always", 100],
+    "subject-case": [2, "never", ["start-case", "pascal-case", "upper-case"]],
+  },
+};

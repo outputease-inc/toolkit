@@ -1,0 +1,62 @@
+<% if (it.scope !== "workspace-app" && it.scope !== "workspace-package") { %>
+"prepare": "simple-git-hooks",
+<% } %>
+<% if (it.frameworkConfig.framework === "next.js") { %>
+"dev": "<%= it.pm.run %> next dev",
+"build": "<%= it.pm.run %> next build",
+"start": "<%= it.pm.run %> next start",
+"lint": "<%= it.pm.run %> biome check ./src ./app",
+"format": "<%= it.pm.run %> biome format --write ./src ./app",
+"typecheck": "tsc --noEmit"<% if (it.pm.name === "bun") { %>,
+"test": "bun test"<% } %>
+<% } else if (it.frameworkConfig.framework === "astro") { %>
+"dev": "<%= it.pm.run %> astro dev",
+"build": "<%= it.pm.run %> astro build",
+"preview": "<%= it.pm.run %> astro preview",
+"lint": "<%= it.pm.run %> biome check ./src",
+"format": "<%= it.pm.run %> biome format --write ./src",
+"typecheck": "tsc --noEmit"<% if (it.pm.name === "bun") { %>,
+"test": "bun test"<% } %>
+<% } else if (it.frameworkConfig.framework === "capacitor") { %>
+"dev": "<%= it.pm.run %> vite",
+"build": "<%= it.pm.run %> vite build",
+"preview": "<%= it.pm.run %> vite preview",
+"cap:sync": "<%= it.pm.exec %> cap sync",
+"cap:open:android": "<%= it.pm.exec %> cap open android",
+"cap:open:ios": "<%= it.pm.exec %> cap open ios",
+"lint": "<%= it.pm.run %> biome check ./src",
+"format": "<%= it.pm.run %> biome format --write ./src",
+"typecheck": "tsc --noEmit"<% if (it.pm.name === "bun") { %>,
+"test": "bun test"<% } %>
+<% } else if (it.frameworkConfig.framework === "tauri") { %>
+"dev": "<%= it.pm.run %> tauri dev",
+"build": "<%= it.pm.run %> tauri build",
+"vite:dev": "<%= it.pm.run %> vite",
+"vite:build": "<%= it.pm.run %> vite build",
+"lint": "<%= it.pm.run %> biome check ./src",
+"format": "<%= it.pm.run %> biome format --write ./src",
+"typecheck": "tsc --noEmit"<% if (it.pm.name === "bun") { %>,
+"test": "bun test"<% } %>
+<% } else if (it.frameworkConfig.framework === "bun-cli") { %>
+"dev": "bun run src/index.ts",
+"build": "bun build ./src/index.ts --outdir ./dist --target bun",
+"lint": "<%= it.pm.run %> biome check ./src",
+"format": "<%= it.pm.run %> biome format --write ./src",
+"typecheck": "tsc --noEmit",
+"test": "bun test"
+<% } else if (it.frameworkConfig.framework === "library") { %>
+"dev": "tsc --watch",
+"build": "tsc",
+"lint": "<%= it.pm.run %> biome check ./src",
+"format": "<%= it.pm.run %> biome format --write ./src",
+"typecheck": "tsc --noEmit",
+"test": "bun test",
+"clean": "rm -rf dist"
+<% } else { %>
+"dev": "<%= it.pm.run %> dev",
+"build": "<%= it.pm.run %> build",
+"lint": "<%= it.pm.run %> biome check ./src",
+"format": "<%= it.pm.run %> biome format --write ./src",
+"typecheck": "tsc --noEmit"<% if (it.pm.name === "bun") { %>,
+"test": "bun test"<% } %>
+<% } %>

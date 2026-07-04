@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nicehash/tauri-v2/HEAD/crates/tauri-schema-generator/schemas/config.schema.json",
+  "productName": "<%= it.projectName %>",
+  "version": "0.1.0",
+  "identifier": "com.example.<%= it.projectName.replace(/[^a-zA-Z0-9]/g, '') %>",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:5173",
+    "beforeDevCommand": "<%= it.pm.run %> vite",
+    "beforeBuildCommand": "<%= it.pm.run %> vite build"
+  },
+  "app": {
+    "title": "<%= it.projectName %>",
+    "windows": [
+      {
+        "title": "<%= it.projectName %>",
+        "width": 1024,
+        "height": 768
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  }
+}
