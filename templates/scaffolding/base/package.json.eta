@@ -1,0 +1,22 @@
+{
+  <%~ include("/partials/package-base", it) %>,
+  "scripts": {
+    <%~ include("/partials/scripts", it) %>
+  },
+  "dependencies": {
+<% const depEntries = Object.entries(it.dependencies); %>
+<% depEntries.forEach(([name, version], i) => { %>
+    "<%= name %>": "<%= version %>"<%= i < depEntries.length - 1 ? "," : "" %>
+<% }); %>
+  },
+  "devDependencies": {
+<% const allDevDeps = Object.assign({}, it.workspaceDeps || {}, it.devDependencies); %>
+<% const devDepEntries = Object.entries(allDevDeps); %>
+<% devDepEntries.forEach(([name, version], i) => { %>
+    "<%= name %>": "<%= version %>"<%= i < devDepEntries.length - 1 ? "," : "" %>
+<% }); %>
+  }<% if (it.scope === "standalone") { %>,
+  "simple-git-hooks": {
+    "commit-msg": "<%= it.pm.exec %> commitlint --edit $1"
+  }<% } %>
+}
