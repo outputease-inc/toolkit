@@ -1,0 +1,237 @@
+[
+  {
+    "id": "claude",
+    "displayName": "Claude Code",
+    "bucket": "cli",
+    "phase": "dogfood",
+    "instructions": {
+      "agentsMdSupport": "none",
+      "bridge": null,
+      "addendum": { "placement": "CLAUDE.md", "emitter": "instructions-claudemd" }
+    },
+    "mcp": {
+      "emit": { "path": ".mcp.json", "family": "mcp-json-mcpServers" },
+      "scopeCaveat": null,
+      "userGlobal": null
+    },
+    "skills": {
+      "readsAgentsSkillsDir": false,
+      "copyPath": ".claude/skills",
+      "argPlaceholder": "$ARGUMENTS",
+      "wrapper": null,
+      "descriptionCharLimit": null
+    },
+    "capabilities": {
+      "toolRestriction": true,
+      "modelInvocationControl": true,
+      "subagents": true,
+      "hooks": true
+    },
+    "docsUrl": ["https://docs.claude.com/en/docs/claude-code/overview"],
+    "asOf": "2026-07-02",
+    "notes": "Peer output, not privileged: CLAUDE.md = all instruction blocks (core + claude) + the SPECKIT block, byte-identical to the pre-migration file (R2)."
+  },
+  {
+    "id": "codex",
+    "displayName": "OpenAI Codex CLI",
+    "bucket": "cli",
+    "phase": "dogfood",
+    "instructions": {
+      "agentsMdSupport": "native",
+      "bridge": null,
+      "addendum": null
+    },
+    "mcp": {
+      "emit": { "path": ".codex/config.toml", "family": "mcp-toml-codex" },
+      "scopeCaveat": "MCP servers load only when the repository is trusted (run codex and approve the repo).",
+      "userGlobal": { "path": "~/.codex/config.toml", "family": "mcp-toml-codex" }
+    },
+    "skills": {
+      "readsAgentsSkillsDir": true,
+      "copyPath": null,
+      "argPlaceholder": "free-text",
+      "wrapper": null,
+      "descriptionCharLimit": null
+    },
+    "capabilities": {
+      "toolRestriction": true,
+      "modelInvocationControl": false,
+      "subagents": true,
+      "hooks": true
+    },
+    "docsUrl": [
+      "https://developers.openai.com/codex/guides/agents-md",
+      "https://developers.openai.com/codex/config-basic",
+      "https://developers.openai.com/codex/skills",
+      "https://developers.openai.com/codex/hooks",
+      "https://developers.openai.com/codex/rules",
+      "https://developers.openai.com/codex/subagents"
+    ],
+    "asOf": "2026-07-05",
+    "notes": "Reads AGENTS.md and scans .agents/skills. Project .codex/config.toml, hooks, rules, and custom agents load only when the repository .codex layer is trusted. Tool restriction is represented by generated .codex/rules/*.rules, not by project approval-policy defaults."
+  },
+  {
+    "id": "gemini",
+    "displayName": "Gemini CLI",
+    "bucket": "cli",
+    "phase": "dogfood",
+    "instructions": {
+      "agentsMdSupport": "bridge",
+      "bridge": { "file": ".gemini/settings.json", "emitter": "instructions-gemini-settings" },
+      "addendum": { "placement": "GEMINI.md", "emitter": "instructions-gemini-settings" }
+    },
+    "mcp": {
+      "emit": { "path": ".gemini/settings.json", "family": "mcp-gemini-settings" },
+      "scopeCaveat": null,
+      "userGlobal": null
+    },
+    "skills": {
+      "readsAgentsSkillsDir": true,
+      "copyPath": null,
+      "argPlaceholder": "{{args}}",
+      "wrapper": { "dir": ".gemini/commands", "family": "commands-toml-gemini" },
+      "descriptionCharLimit": null
+    },
+    "capabilities": {
+      "toolRestriction": false,
+      "modelInvocationControl": false,
+      "subagents": true,
+      "hooks": false
+    },
+    "docsUrl": ["https://github.com/google-gemini/gemini-cli"],
+    "asOf": "2026-07-02",
+    "notes": "AGENTS.md not read by default (upstream issue closed not-planned); bridged via .gemini/settings.json context.fileName (nested v2 key, not legacy flat contextFileName). One emitter owns the whole settings.json (bridge + mcpServers) and emits GEMINI.md only if gemini-scoped blocks exist."
+  },
+  {
+    "id": "opencode",
+    "displayName": "OpenCode",
+    "bucket": "cli",
+    "phase": "dogfood",
+    "instructions": {
+      "agentsMdSupport": "native",
+      "bridge": null,
+      "addendum": { "placement": "opencode.json:instructions", "emitter": "instructions-opencode-json" }
+    },
+    "mcp": {
+      "emit": { "path": "opencode.json", "family": "mcp-opencode-json" },
+      "scopeCaveat": null,
+      "userGlobal": null
+    },
+    "skills": {
+      "readsAgentsSkillsDir": true,
+      "copyPath": null,
+      "argPlaceholder": "$ARGUMENTS",
+      "wrapper": { "dir": ".opencode/commands", "family": "commands-md-opencode" },
+      "descriptionCharLimit": 1024
+    },
+    "capabilities": {
+      "toolRestriction": true,
+      "modelInvocationControl": false,
+      "subagents": true,
+      "hooks": false
+    },
+    "docsUrl": ["https://opencode.ai/docs/"],
+    "asOf": "2026-07-02",
+    "notes": "AGENTS.md is primary (CLAUDE.md read only if AGENTS.md absent). opencode.json owns the instructions addendum array and the mcp key (type: local, command-as-array, environment). Skill descriptions capped at 1024 chars."
+  },
+  {
+    "id": "cursor",
+    "displayName": "Cursor",
+    "bucket": "ide",
+    "phase": "toolkit",
+    "instructions": {
+      "agentsMdSupport": "native",
+      "bridge": null,
+      "addendum": { "placement": ".cursor/rules/outputease.mdc", "emitter": "instructions-mdc-rule" }
+    },
+    "mcp": {
+      "emit": { "path": ".cursor/mcp.json", "family": "mcp-json-mcpServers" },
+      "scopeCaveat": null,
+      "userGlobal": null
+    },
+    "skills": {
+      "readsAgentsSkillsDir": true,
+      "copyPath": null,
+      "argPlaceholder": "free-text",
+      "wrapper": null,
+      "descriptionCharLimit": null
+    },
+    "capabilities": {
+      "toolRestriction": false,
+      "modelInvocationControl": true,
+      "subagents": false,
+      "hooks": false
+    },
+    "docsUrl": ["https://docs.cursor.com/"],
+    "asOf": "2026-07-02",
+    "notes": "Reads AGENTS.md (root + nested). .cursor/rules/*.mdc uses alwaysApply: true. .cursor/mcp.json reuses the mcpServers shape with explicit type: stdio. The disable-model-invocation bug affects plugin-delivered skills only, not repo skills."
+  },
+  {
+    "id": "copilot",
+    "displayName": "GitHub Copilot",
+    "bucket": "ide",
+    "phase": "toolkit",
+    "instructions": {
+      "agentsMdSupport": "native",
+      "bridge": null,
+      "addendum": { "placement": ".github/copilot-instructions.md", "emitter": "instructions-copilot-md" }
+    },
+    "mcp": {
+      "emit": { "path": ".vscode/mcp.json", "family": "mcp-json-servers" },
+      "scopeCaveat": null,
+      "userGlobal": null
+    },
+    "skills": {
+      "readsAgentsSkillsDir": true,
+      "copyPath": null,
+      "argPlaceholder": "free-text",
+      "wrapper": null,
+      "descriptionCharLimit": 1024
+    },
+    "capabilities": {
+      "toolRestriction": false,
+      "modelInvocationControl": true,
+      "subagents": false,
+      "hooks": false
+    },
+    "docsUrl": ["https://code.visualstudio.com/docs/copilot/overview"],
+    "asOf": "2026-07-02",
+    "notes": "VS Code consumes AGENTS.md (chat.useAgentsMdFile default-on) and .vscode/mcp.json (top-level 'servers' key, NOT mcpServers; type required). The Copilot coding agent MCP is repo Settings UI only and is recorded unplaceable in the fidelity report."
+  },
+  {
+    "id": "windsurf",
+    "displayName": "Windsurf / Devin",
+    "bucket": "ide",
+    "phase": "toolkit",
+    "instructions": {
+      "agentsMdSupport": "native",
+      "bridge": null,
+      "addendum": {
+        "placement": ".windsurf/rules/outputease.md",
+        "emitter": "instructions-windsurf-rule",
+        "charLimit": 12000
+      }
+    },
+    "mcp": {
+      "emit": { "path": ".devin/config.json", "family": "mcp-devin-json" },
+      "scopeCaveat": null,
+      "userGlobal": { "path": "~/.codeium/windsurf/mcp_config.json", "family": "mcp-json-mcpServers" }
+    },
+    "skills": {
+      "readsAgentsSkillsDir": true,
+      "copyPath": null,
+      "argPlaceholder": "free-text",
+      "wrapper": null,
+      "descriptionCharLimit": null
+    },
+    "capabilities": {
+      "toolRestriction": false,
+      "modelInvocationControl": false,
+      "subagents": false,
+      "hooks": false
+    },
+    "docsUrl": ["https://docs.windsurf.com/"],
+    "asOf": "2026-07-02",
+    "notes": "Mid-rebrand (Windsurf -> Devin Local, 2026-06-02). Root AGENTS.md is always-on to the rules engine; .windsurf/rules/*.md uses trigger: always_on with a 12k char/file cap. Cascade (legacy) MCP is user-global only (apply target); Devin Local uses .devin/config.json (project) and auto-imports .mcp.json / .cursor/mcp.json. Re-verify [C4] at IDE-bucket implementation. Emit skills, not workflows (workflows sunset on Devin Local)."
+  }
+]
