@@ -1,0 +1,86 @@
+# Documentation Index
+
+Central navigation file linking all project documentation for <%= it.projectName %>. This is the single entry point for discovering docs, specs, and reference materials.
+
+## Root Files
+
+| File | Role | Description |
+|------|------|-------------|
+| `./CLAUDE.md` | Project Context | AI development guidance and project configuration |
+| `./HANDOFF.md` | Session Continuity | Session progress tracking and priority queue |
+| `./TODO.md` | Ideas Backlog | Feature ideas pipeline with promotion workflow |
+| `./README.md` | Project Overview | Quick-start instructions and feature summary |
+| `./CHANGELOG.md` | Version History | Semantic Versioning release notes |
+| `./CONTRIBUTING.md` | Contribution Guide | Dev setup, branch conventions, PR process |
+| `./SECURITY.md` | Security Policy | Vulnerability reporting and security practices |
+| `./SETUP.md` | Setup Checklist | Post-copy configuration steps and placeholder reference |
+| `./INDEX.md` | Documentation Index | Central navigation (this file) |
+
+## Project Documentation
+
+Files in the `docs/` directory cover architecture, development standards, and operational concerns.
+
+| File | Role | Description | Update When |
+|------|------|-------------|-------------|
+| `./docs/architecture.md` | System Design | Component relationships, data flow, architectural decisions | System design or tech stack changes |
+| `./docs/api.md` | API Reference | Endpoints, schemas, authentication, error codes | API endpoints or schemas change |
+| `./docs/auth.md` | Authentication Guide | Auth flows, sessions, roles, tokens | Auth flows or session management changes |
+| `./docs/cicd.md` | CI/CD Configuration | Build, test, deployment pipelines | CI/CD pipeline or deploy triggers change |
+| `./docs/conventions.md` | Coding Standards | Naming, file org, error handling, style rules | Coding standards or formatting rules change |
+| `./docs/database.md` | Data Layer Guide | Schema, migrations, queries, indexes | Schema or migration patterns change |
+| `./docs/design.md` | Design Guidelines | Visual language, tokens, component patterns | Design tokens or component patterns change |
+| `./docs/environment.md` | Environment Config | Env vars, local setup, secrets management | Env vars or prerequisites change |
+| `./docs/errors.md` | Error Reference | Error codes, messages, troubleshooting | Error codes or handling patterns change |
+| `./docs/infrastructure.md` | Infrastructure Docs | Hosting, deployment, networking | Hosting or deployment changes |
+| `./docs/integrations.md` | Integration Docs | Third-party APIs, webhooks, service connections | Third-party connections added or modified |
+| `./docs/monitoring.md` | Observability Guide | Logging, metrics, alerting, health checks | Logging, metrics, or alerting changes |
+| `./docs/performance.md` | Performance Guide | Optimization targets, profiling, budgets | Performance targets or budgets change |
+| `./docs/runbook.md` | Operations Guide | Incident response, rollback, troubleshooting | Operational procedures change |
+| `./docs/testing.md` | Testing Strategy | Test types, coverage, conventions | Test strategy or frameworks change |
+| `./docs/procedure-task-verification.md` | Procedure | Shared task verification for checkpoint/session-end | Spec-Kit task tracking changes |
+| `./docs/workflow.md` | Dev Workflow | Branching, code review, release cycle | Workflow or release process changes |
+
+## Configuration Files
+
+| File | Role | Description |
+|------|------|-------------|
+| `.mcp.json` | MCP Servers | Model Context Protocol server configuration |
+| `.claude/settings.json` | Hook Wiring | PreToolUse/PostToolUse hook configuration |
+| `.gitattributes` | Line Endings | Enforces LF normalization for cross-platform compatibility |
+| `.editorconfig` | Editor Config | Consistent formatting across editors and platforms |
+| `.claude/docs/AGENTS-INDEX.md` | Agent Guide | Agent workflow integration and triggering matrix |
+
+## Spec-Kit Artifacts
+
+Feature specifications are managed by `/speckit-*` commands.
+
+| Path | Purpose |
+|------|---------|
+| `.specify/memory/constitution.md` | Project principles and constraints |
+| `specs/` | Feature specifications created via `/speckit-specify` |
+| `specs/[FEATURE]/spec.md` | Feature specification document |
+| `specs/[FEATURE]/plan.md` | Technical implementation plan |
+| `specs/[FEATURE]/tasks.md` | Actionable task breakdown |
+| `specs/[FEATURE]/checklists/` | Quality and review checklists |
+
+## How to Use This Index
+
+Quick reference for finding the right document based on your current task.
+
+| Starting Point | Read First | Then |
+|----------------|------------|------|
+| Just ran the toolkit? | `./SETUP.md` | `./CLAUDE.md` |
+| New to the project? | `./README.md` | `./docs/architecture.md` |
+| Setting up locally? | `./docs/environment.md` | `./README.md` Quick Start |
+| Contributing code? | `./CONTRIBUTING.md` | `./docs/conventions.md` |
+| API details? | `./docs/api.md` | `./docs/auth.md` |
+| Debugging an issue? | `./docs/errors.md` | `./docs/runbook.md` |
+| Deploying changes? | `./docs/cicd.md` | `./docs/infrastructure.md` |
+| Writing tests? | `./docs/testing.md` | `./docs/conventions.md` |
+| Working on a feature? | `specs/[FEATURE]/spec.md` | `./docs/architecture.md` |
+
+### Claude Code Users
+
+If you are working with Claude Code, start with `./CLAUDE.md` for project context and run `/quickstart` to initialize your session. Use `./HANDOFF.md` to review current priorities and session history.
+
+<!-- TODO: Add new documentation files to the appropriate table as the project grows. -->
