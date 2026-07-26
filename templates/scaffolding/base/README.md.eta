@@ -1,0 +1,26 @@
+# <%= it.projectName %>
+
+Scaffolded with [OutputEase Toolkit](https://github.com/outputease-inc/toolkit).
+
+## Getting Started
+
+```bash
+<%= it.pm.install %>
+<%= it.pm.run %> dev
+```
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `<%= it.pm.run %> dev` | Start development server |
+| `<%= it.pm.run %> build` | Build for production |
+| `<%= it.pm.run %> lint` | Check code with Biome |
+| `<%= it.pm.run %> format` | Format code with Biome |
+| `<%= it.pm.run %> typecheck` | Run TypeScript type checking |
+
+## Tech Stack
+
+<% for (const tool of it.stackSummary) { %>
+- <%= tool %>
+<% } %>

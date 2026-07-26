@@ -1,0 +1,169 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun install)",
+      "Bash(bun run *)",
+      "Bash(bun add *)",
+      "Bash(bun remove *)",
+      "Bash(bun test *)",
+      "Bash(bunx tsc *)",
+      "Bash(bunx @biomejs/biome *)",
+      "Bash(bunx drizzle-kit *)",
+      "Bash(bunx shadcn *)",
+      "Bash(bunx turbo *)",
+      "Bash(bunx commitlint *)",
+      "Bash(bunx simple-git-hooks)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git branch *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git checkout *)",
+      "Bash(git stash *)",
+      "Bash(git push origin HEAD:refs/heads/*)",
+      "Bash(git push --set-upstream origin *)",
+      "Bash(git push origin --delete *)",
+      "Bash(git fetch *)",
+      "Bash(git worktree *)",
+      "Bash(gh pr list *)",
+      "Bash(gh pr view *)",
+      "Bash(mkdir *)"
+    ],
+    "deny": ["Bash(git push * main)", "Bash(git push * master)"],
+    "ask": ["Bash(git branch -D *)"]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/protect-sensitive.js\"",
+            "timeout": 5,
+            "statusMessage": "Checking file safety..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/prevent-barrel-bypass.js\"",
+            "timeout": 5,
+            "statusMessage": "Checking import paths..."
+          },
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/protect-generated.js\"",
+            "timeout": 5,
+            "statusMessage": "Checking for generated-file edits..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/protect-sensitive-bash.js\"",
+            "timeout": 5,
+            "statusMessage": "Checking command safety..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/auto-format.js\"",
+            "timeout": 15,
+            "statusMessage": "Auto-formatting with Biome..."
+          },
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/record-edits.js\"",
+            "timeout": 5,
+            "statusMessage": "Recording edit for batched verify..."
+          },
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/record-reads.js\"",
+            "timeout": 5,
+            "statusMessage": "Recording source hash for staleness check..."
+          }
+        ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/record-reads.js\"",
+            "timeout": 5,
+            "statusMessage": "Recording source hash for staleness check..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/batch-typecheck.js\"",
+            "timeout": 120,
+            "statusMessage": "Running batched typecheck..."
+          },
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/batch-test.js\"",
+            "timeout": 90,
+            "statusMessage": "Running batched tests..."
+          },
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/verify-sources.js\"",
+            "timeout": 15,
+            "statusMessage": "Checking read sources for mid-session drift..."
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/reset-edits.js\"",
+            "timeout": 5,
+            "statusMessage": "Resetting batched-verify state..."
+          },
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/reset-reads.js\"",
+            "timeout": 5,
+            "statusMessage": "Resetting source-staleness ledger..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/reset-edits.js\"",
+            "timeout": 5,
+            "statusMessage": "Resetting batched-verify state..."
+          }
+        ]
+      }
+    ]
+  }
+}
