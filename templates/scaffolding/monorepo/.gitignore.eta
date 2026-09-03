@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.next/
+.turbo/
+build/
+*.log
+.env*
+!.env.example
+.DS_Store
+Thumbs.db
+*.tsbuildinfo
+/.outputease-first-run
