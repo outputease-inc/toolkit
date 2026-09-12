@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "tool": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100
+      },
+      "purpose": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      },
+      "role": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100
+      },
+      "route": {
+        "type": "string",
+        "enum": [
+          "base",
+          "framework:nextjs",
+          "framework:astro",
+          "platform:tauri",
+          "platform:capacitor",
+          "backend:supabase",
+          "backend:standalone",
+          "runtime:bun",
+          "runtime:node"
+        ],
+        "description": "Routing context that determines when this tool is included"
+      },
+      "section": {
+        "type": "string",
+        "enum": [
+          "Application & Data",
+          "DevOps",
+          "Developer Tools",
+          "Documentation Templates",
+          "Utilities"
+        ],
+        "description": "StackShare-style section grouping"
+      },
+      "category": {
+        "type": "string",
+        "enum": [
+          "platform-feature",
+          "template",
+          "tool"
+        ],
+        "description": "Entry classification: platform-feature, template, or tool"
+      },
+      "layer": {
+        "type": "string",
+        "enum": [
+          "devtime",
+          "infra",
+          "runtime",
+          "template"
+        ],
+        "description": "Architectural layer: devtime, infra, runtime, or template"
+      },
+      "maturity": {
+        "type": "string",
+        "enum": [
+          "beta",
+          "stable"
+        ],
+        "description": "beta=experimental (requires agentNotes), stable=production-ready"
+      },
+      "condition": {
+        "type": "string",
+        "enum": [
+          "always",
+          "optional",
+          "has_analytics",
+          "has_api",
+          "has_auth",
+          "has_ci",
+          "has_cms",
+          "has_database",
+          "has_dependabot",
+          "has_docs",
+          "has_e2e_tests",
+          "has_email",
+          "has_file_uploads",
+          "has_frontend",
+          "has_integration_tests",
+          "has_payments",
+          "has_realtime",
+          "platform_default:ContentSite",
+          "platform_default:DesktopApp",
+          "platform_default:MobileApp",
+          "platform_default:WebApp"
+        ],
+        "description": "Inclusion condition: always, optional, has_* feature flag, or platform_default:*"
+      },
+      "platforms": {
+        "type": "object",
+        "properties": {
+          "contentSite": {
+            "type": "boolean"
+          },
+          "desktopApp": {
+            "type": "boolean"
+          },
+          "mobileApp": {
+            "type": "boolean"
+          },
+          "tooling": {
+            "type": "boolean"
+          },
+          "webApp": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "contentSite",
+          "desktopApp",
+          "mobileApp",
+          "tooling",
+          "webApp"
+        ],
+        "additionalProperties": false
+      },
+      "url": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uri"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "hasMcp": {
+        "type": "boolean"
+      },
+      "relatedTo": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "dependsOn": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "selectionMode": {
+        "type": "string",
+        "enum": [
+          "always-included",
+          "auto-included",
+          "selectable"
+        ],
+        "description": "always-included=mandatory, auto-included=default-on, selectable=user-chosen"
+      },
+      "exclusionGroup": {
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "auth",
+              "database",
+              "docs-framework",
+              "i18n",
+              "media-optimization",
+              "package-manager",
+              "realtime",
+              "runtime",
+              "sitemap",
+              "storage",
+              "test-runner",
+              "vector"
+            ],
+            "description": "Mutually exclusive tool group — only one member selected per project context"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "bundle": {
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "capacitor-core",
+              "capacitor-extended",
+              "observability",
+              "storybook-suite",
+              "supabase-suite",
+              "tauri-core",
+              "tauri-extended",
+              "versioning"
+            ],
+            "description": "Named bundle grouping tools that are installed together"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "priority": {
+        "type": "string",
+        "enum": [
+          "optional",
+          "recommended",
+          "required"
+        ],
+        "description": "optional=nice-to-have, recommended=best-practice, required=mandatory"
+      },
+      "agentNotes": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "env": {
+        "minItems": 1,
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^[A-Z][A-Z0-9_]*$"
+            },
+            "purpose": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "whereToGet": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 300
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "clientExposed": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "name",
+            "purpose",
+            "whereToGet",
+            "clientExposed"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "tool",
+      "purpose",
+      "role",
+      "route",
+      "section",
+      "category",
+      "layer",
+      "maturity",
+      "condition",
+      "platforms",
+      "url",
+      "hasMcp",
+      "relatedTo",
+      "dependsOn",
+      "selectionMode",
+      "exclusionGroup",
+      "bundle",
+      "priority",
+      "agentNotes"
+    ],
+    "additionalProperties": false
+  }
+}

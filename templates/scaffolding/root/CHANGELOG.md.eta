@@ -1,0 +1,57 @@
+# Changelog
+
+All notable changes to <%= it.projectName %> will be documented in this file.
+
+<!-- Reserve CHANGELOG.md for Semantic Versioning release notes and version change summaries only (not general project notes). -->
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+
+- Initial project scaffolding
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## [0.0.1] - <%= it.releaseDate %>
+
+### Added
+
+- [INITIAL_FEATURE_1]
+- [INITIAL_FEATURE_2]
+- Project documentation structure (see `./INDEX.md`)
+- Development environment configuration (see `./docs/environment.md`)
+
+## Version Guidelines
+
+### Change Categories
+
+| Category | When to Use |
+|----------|-------------|
+| Added | New features or capabilities |
+| Changed | Modifications to existing functionality |
+| Deprecated | Features marked for future removal |
+| Removed | Features deleted in this release |
+| Fixed | Bug fixes |
+| Security | Vulnerability patches or security improvements |
+
+### Versioning Rules
+
+- **Major** (X.0.0): Breaking changes to public APIs or contracts
+- **Minor** (0.X.0): New features, backward-compatible additions
+- **Patch** (0.0.X): Bug fixes, documentation corrections
+
+## Comparison Links
+
+[Unreleased]: [REPO_URL]/compare/v0.0.1...HEAD
+[0.0.1]: [REPO_URL]/releases/tag/v0.0.1
+
+<!-- TODO: When releasing a new version, copy the Unreleased section into a new versioned
+     section below, clear the Unreleased subsections, and update comparison links above.
+-->

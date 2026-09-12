@@ -1,0 +1,74 @@
+# Security Policy
+
+Security vulnerability disclosure policy and reporting procedures for <%= it.projectName %>.
+
+## Supported Versions
+
+| Version | Supported |
+|---------|-----------|
+| [LATEST_MAJOR].x | Yes |
+| [PREVIOUS_MAJOR].x | Security fixes only |
+| < [PREVIOUS_MAJOR] | No |
+
+## Reporting a Vulnerability
+
+**DO NOT open a public issue for security vulnerabilities.**
+
+Send a detailed report to **[SECURITY_EMAIL]** with the following information:
+
+- Description of the vulnerability
+- Steps to reproduce (including environment details)
+- Potential impact assessment
+- Suggested fix (if available)
+
+### Response SLA
+
+| Stage | Timeframe | Description |
+|-------|-----------|-------------|
+| Acknowledgement | 48 hours | Confirmation of receipt |
+| Assessment | 7 days | Severity classification and initial analysis |
+| Fix | 30 days | Patch released for critical/high severity |
+
+After the fix is deployed, we will coordinate public disclosure with the reporter.
+
+## Security Practices
+
+### Dependency Auditing
+
+- Run `<%= it.pm.run %> audit` regularly to check for known vulnerabilities
+- Automated dependency updates via [DEPENDABOT_OR_RENOVATE_OR_REMOVE]
+- Lock files are committed and reviewed in PRs
+
+### Secrets Management
+
+- All secrets stored in environment variables, never committed to source
+- `.env` files are gitignored; see `./docs/environment.md` for configuration
+- CI/CD secrets managed through [CI_SECRETS_PROVIDER]
+
+### Input Validation
+
+- All user input validated and sanitized at the boundary layer
+- Parameterized queries for all database operations
+- Output encoding applied context-appropriately
+
+## Scope
+
+### In Scope
+
+- Application code in this repository
+- Authentication and authorization flows
+- Data handling and storage
+- API endpoints and integrations
+- Dependencies declared in the project manifest
+
+### Out of Scope
+
+- Third-party services not maintained by this project
+- Issues in upstream dependencies (report to their maintainers)
+- Social engineering attacks
+- Denial of service attacks against infrastructure
+- Issues already disclosed in public CVE databases
+
+---
+
+See also: [OWASP Top 10](https://owasp.org/www-project-top-ten/) for common vulnerability categories.

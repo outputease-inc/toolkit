@@ -1,0 +1,85 @@
+# Auto-detect text files and normalize line endings to LF.
+# Working copies use LF on all platforms (editors and Git Bash handle LF natively).
+* text=auto eol=lf
+
+# -- Explicitly text --------------------------------------------------------
+*.md          text eol=lf
+*.txt         text eol=lf
+*.json        text eol=lf
+*.js          text eol=lf
+*.ts          text eol=lf
+*.jsx         text eol=lf
+*.tsx         text eol=lf
+*.css         text eol=lf
+*.scss        text eol=lf
+*.html        text eol=lf
+*.vue         text eol=lf
+*.svelte      text eol=lf
+*.astro       text eol=lf
+*.yaml        text eol=lf
+*.yml         text eol=lf
+*.toml        text eol=lf
+*.xml         text eol=lf
+*.svg         text eol=lf
+*.sh          text eol=lf
+*.bash        text eol=lf
+*.zsh         text eol=lf
+*.py          text eol=lf
+*.rb          text eol=lf
+*.rs          text eol=lf
+*.go          text eol=lf
+*.java        text eol=lf
+*.kt          text eol=lf
+*.c           text eol=lf
+*.cpp         text eol=lf
+*.h           text eol=lf
+*.env         text eol=lf
+*.example     text eol=lf
+*.sample      text eol=lf
+*.template    text eol=lf
+*.sql         text eol=lf
+*.graphql     text eol=lf
+*.prisma      text eol=lf
+*.lock        text eol=lf
+
+# Dotfiles and config (no extension)
+.gitignore      text eol=lf
+.gitattributes  text eol=lf
+.editorconfig   text eol=lf
+.env*           text eol=lf
+.eslintrc       text eol=lf
+.prettierrc     text eol=lf
+.npmrc          text eol=lf
+.nvmrc          text eol=lf
+.node-version   text eol=lf
+.python-version text eol=lf
+Dockerfile      text eol=lf
+Makefile        text eol=lf
+LICENSE         text eol=lf
+Procfile        text eol=lf
+
+# -- Explicitly binary (never diff, never normalize) ------------------------
+*.png         binary
+*.jpg         binary
+*.jpeg        binary
+*.gif         binary
+*.ico         binary
+*.webp        binary
+*.avif        binary
+*.woff        binary
+*.woff2       binary
+*.ttf         binary
+*.otf         binary
+*.eot         binary
+*.pdf         binary
+*.zip         binary
+*.gz          binary
+*.tar         binary
+*.bz2         binary
+*.7z          binary
+*.mp3         binary
+*.mp4         binary
+*.webm        binary
+*.ogg         binary
+*.wav         binary
+*.lockb       binary

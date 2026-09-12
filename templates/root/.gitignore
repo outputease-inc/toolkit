@@ -1,0 +1,46 @@
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.sample
+!.env.template
+
+# Claude Code personal settings
+.claude/settings.local.json
+.claude/*.local.md
+!.claude/hookify.warn-TEMPLATE.local.md
+CLAUDE.local.md
+
+# ─────────────────────────────────────────────
+# UNCOMMENT the patterns matching your tech stack:
+# ─────────────────────────────────────────────
+
+# Dependencies
+# node_modules/
+# __pycache__/
+# target/
+# vendor/
+
+# Build output (uncomment for your stack)
+# dist/
+# build/
+# .next/
+# .astro/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor and IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp

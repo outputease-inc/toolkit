@@ -1,0 +1,10 @@
+"name": "<%= it.appName || it.projectName %>",
+"version": "0.0.1",
+"private": true,
+"type": "module"<% if (it.frameworkConfig.framework === "library") { %>,
+"exports": {
+  ".": {
+    "types": "./src/index.ts",
+    "default": "./src/index.ts"
+  }
+}<% } %>

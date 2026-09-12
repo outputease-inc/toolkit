@@ -1,0 +1,248 @@
+# <%= it.projectName %>
+
+## Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+<% if (it.frameworkConfig.framework === "next.js") { %>
+| Next.js | React framework (App Router) |
+| React 19 | UI library |
+| Tailwind CSS | Utility-first CSS |
+<% } else if (it.frameworkConfig.framework === "astro") { %>
+| Astro | Content-focused framework |
+| Tailwind CSS | Utility-first CSS |
+<% } else if (it.frameworkConfig.framework === "capacitor") { %>
+| Capacitor | Cross-platform mobile runtime |
+| React 19 | UI library |
+| Vite | Build tool |
+<% } else if (it.frameworkConfig.framework === "tauri") { %>
+| Tauri | Desktop application framework |
+| React 19 | UI library |
+| Vite | Build tool |
+<% } else if (it.frameworkConfig.framework === "bun-cli") { %>
+| Bun | Runtime and bundler |
+| Commander | CLI framework |
+<% } %>
+| TypeScript | Language (strict mode) |
+| Biome | Linting and formatting |
+| <%= it.pm.name.charAt(0).toUpperCase() + it.pm.name.slice(1) %> | Package manager |
+
+## Common Commands
+
+```bash
+<%= it.pm.install %>              # Install dependencies
+<%= it.pm.run %> dev              # Start dev server
+<%= it.pm.run %> build            # Build for production
+<%= it.pm.run %> lint             # Lint code (Biome)
+<%= it.pm.run %> format           # Format code (Biome)
+<%= it.pm.run %> typecheck        # TypeScript type checking
+<% if (it.pm.name === "bun") { %>
+bun test                          # Run tests
+<% } %>
+```
+
+## First-Run Setup
+
+If this is a freshly scaffolded project (the `.outputease-first-run` marker is
+absent) and the user asks to set up, get the project running, configure env or
+MCP, or reports the app will not start: guide them through first-run setup before
+other work (the `first-run` skill; in Claude Code the user can run `/first-run`).
+
+First-run covers what an install command cannot: which env vars to fill and where
+to get each value (the user writes `.env.local` themselves), MCP server auth and
+trust, and verifying the app boots. Never write `.env.local` for the user; never
+put a real value in the committed `.env.example`; never echo a secret value back.
+For external or irreversible commands (starting a database, linking a host, auth,
+minting tokens), print the exact command for the user to run instead of running
+it yourself. When done, point the user at their agent's ongoing-session routine (in Claude Code, `/quickstart`).
+
+## Conventions
+
+1. **Biome** for linting and formatting (not ESLint/Prettier)
+2. **TypeScript strict mode** -- no `any`, no implicit returns
+3. **Double quotes, semicolons, trailing commas** -- enforced by Biome
+<% if (it.frameworkConfig.framework === "next.js") { %>
+4. **App Router** -- all routes in `app/` directory
+5. **Server Components by default** -- add `"use client"` only when needed
+6. **Tailwind CSS** -- utility classes, no custom CSS unless necessary
+<% } else if (it.frameworkConfig.framework === "astro") { %>
+4. **File-based routing** -- pages in `src/pages/`
+5. **Static-first** -- use SSR only when needed
+<% } else if (it.frameworkConfig.framework === "capacitor") { %>
+4. **Web-first** -- build for web, then sync to native
+5. **Native APIs** via `@capacitor/*` plugins
+<% } else if (it.frameworkConfig.framework === "tauri") { %>
+4. **Web frontend** in `src/`, Rust backend in `src-tauri/`
+5. **IPC** via Tauri command system
+<% } else if (it.frameworkConfig.framework === "bun-cli") { %>
+4. **Commander** for CLI argument parsing
+5. **Bun APIs** preferred over Node.js equivalents
+<% } %>
+
+## File Naming
+
+- Components: `PascalCase.tsx` (e.g., `Button.tsx`)
+- Utilities: `camelCase.ts` (e.g., `formatDate.ts`)
+- Tests: `*.test.ts` or `*.test.tsx` co-located with source
+- Config: kebab-case (e.g., `next.config.ts`)
+
+## Commit Conventions
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/).
+
+**Format**: `<type>(<scope>): <description>`
+
+**Types**: `feat`, `fix`, `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test`, `revert`
+
+**Rules**:
+- Header max length: 100 characters
+- Subject case: lowercase (never Start-case, PascalCase, or UPPERCASE)
+- Scope is optional but encouraged
+- Breaking changes: add `!` after type/scope or `BREAKING CHANGE:` in footer
+<% if (it.scope === "standalone" || it.scope === "monorepo") { %>
+
+## Versioning
+
+Automated versioning via [release-please](https://github.com/googleapis/release-please).
+
+While pre-1.0 (`bump-minor-pre-major` enabled):
+- `fix` / `perf` / `refactor` → PATCH (e.g., 0.0.1 → 0.0.2)
+- `feat` → PATCH (e.g., 0.0.1 → 0.0.2)
+- `BREAKING CHANGE` → MINOR (e.g., 0.0.1 → 0.1.0)
+
+After 1.0: standard semver (`fix`=PATCH, `feat`=MINOR, `BREAKING CHANGE`=MAJOR).
+
+**Process**: Push conventional commits to `main` → release-please creates a Release PR → merge it to cut a release.
+<% if (it.scope === "monorepo") { %>
+
+**Tags**: `<component>/<version>` (e.g., `web/0.1.0`)
+<% } %>
+<% } %>
+<% if (it.pm.name === "bun") { %>
+
+## Testing
+
+- **Runner**: Bun test (`bun test`)
+- **Files**: `*.test.ts` or `*.test.tsx`, co-located with source
+- **Run all**: `bun test`
+- **Watch mode**: `bun test --watch`
+<% } %>
+
+## Quality Gates
+
+Before committing, ensure these pass:
+
+1. `<%= it.pm.run %> lint` -- Biome lint + format check
+2. `<%= it.pm.run %> typecheck` -- TypeScript strict mode
+<% if (it.pm.name === "bun") { %>
+3. `bun test` -- All tests green
+<% } %>
+4. `<%= it.pm.run %> build` -- Production build succeeds
+<% if (it.specKit) { %>
+
+## Session Workflow
+
+| Command | Purpose | When |
+|---------|---------|------|
+| `/quickstart` | Initialize session | Start of every session |
+| `/commit` | The single implementation of "make a commit" | When a unit of work is finished; other rituals route here |
+| `/checkpoint` | WIP commit (no push) | Every 15-30 min during dev, when work is mid-flight |
+| `/dev-check` | Build/lint/test validation | Before committing |
+| `/session-end` | Close session (commit + push) | End of session |
+| `/resume` | Recovery check | After crashes/interruptions |
+
+Picking between the two commit skills is one question: **is this unit of work finished?**
+Finished is `/commit`. Mid-flight is `/checkpoint`, which writes a `chore(<scope>): wip ...`
+subject and routes through `/commit` to do it.
+
+Both may be fired by an agent without being asked. Pushing, opening a pull request and merging
+one may not -- those need your explicit say-so. Change that split here if this project wants a
+different one; the skills defer to what this file says.
+<% } %>
+
+## Process Skill Routing
+
+The superpowers plugin is optional (`claude plugin install superpowers@claude-plugins-official`). When it is installed, its process skills are the workflow backbone: match the moment, invoke the skill.
+
+| Moment | Skill |
+|--------|-------|
+| Feature idea | superpowers:brainstorming |
+| Multi-step work, requirements in hand | superpowers:writing-plans |
+| Executing a written plan | superpowers:executing-plans or superpowers:subagent-driven-development |
+| Bug or test failure | superpowers:systematic-debugging (before proposing fixes) |
+| Implementing a feature/bugfix | superpowers:test-driven-development |
+| About to claim done | superpowers:verification-before-completion |
+| Pre-PR review pass | superpowers:requesting-code-review |
+| Review feedback received | superpowers:receiving-code-review |
+| Branch complete | superpowers:finishing-a-development-branch |
+
+Not installed? Follow the same discipline manually: design before building, plan before executing, root-cause before fixing, evidence before "done". Plugin home: https://github.com/obra/superpowers.
+<% if (it.specKit) { %>
+
+## Spec-Driven Development
+
+This project uses [spec-kit](https://github.com/github/spec-kit) for spec-driven development.
+Multi-session features (weeks of work, many tasks) follow the spec-kit workflow; day-scale work follows the process-skill backbone (see Process Skill Routing).
+
+| Command | Purpose |
+|---------|---------|
+| `/speckit-specify` | Create feature spec from description |
+| `/speckit-clarify` | Resolve spec ambiguities |
+| `/speckit-plan` | Generate implementation plan |
+| `/speckit-tasks` | Break plan into ordered tasks |
+| `/speckit-implement` | Execute tasks with guidance |
+
+Specs live in `specs/NNN-feature-name/` (spec.md, plan.md, tasks.md).
+
+<!-- SPECKIT START -->
+<!-- Active feature plan reference — maintained by /speckit-plan. -->
+<!-- SPECKIT END -->
+<% } %>
+
+## NEVER
+
+- Use ESLint or Prettier (use Biome exclusively)
+- Use `any` type without justification (enable `noExplicitAny`)
+- Commit `.env` files (use `.env.example` as template)
+- Skip type checking with `@ts-ignore` (use `@ts-expect-error` with explanation if necessary)
+- Use `var` (use `const` or `let`)
+<% if (it.frameworkConfig.framework === "next.js") { %>
+- Use `"use client"` without a clear need for client-side interactivity
+<% } %>
+
+## ALWAYS
+
+- Use double quotes, semicolons, trailing commas (enforced by Biome)
+- Write TypeScript in strict mode
+- Co-locate tests with source files
+- Validate environment variables (never use `process.env` directly in app code)
+- Run lint + typecheck before committing
+- Check for existing utilities before creating new ones
+<% if (it.frameworkConfig.framework === "next.js") { %>
+- Use Server Components by default; add `"use client"` only when needed
+<% } %>
+<% if (it.scope === "monorepo") { %>
+- Use `workspace:*` for internal package dependencies
+<% } %>
+
+## Gotchas
+
+### Empty barrel exports
+An `index.ts` with only comments and no exports fails with "is not a module".
+**Fix**: Always include at least `export {};` in barrel files.
+<% if (it.pm.name === "bun") { %>
+
+### Bun + problematic postinstall scripts
+`bun add` can fail for packages with postinstall scripts in the `.bun` cache.
+**Fix**: Manually add the dep to `package.json`, then run `bun install`.
+<% } %>
+<% if (it.scope === "monorepo") { %>
+
+### Biome nested config conflicts
+Nested `biome.json` files in packages conflict with the root config.
+**Fix**: Use root `biome.json` only. Packages inherit via `"extends": "//"`.
+
+### release-please 0.0.0 bug
+If `.release-please-manifest.json` starts a package at `0.0.0`, `bump-minor-pre-major` is silently ignored.
+**Fix**: Always start new packages at `0.0.1` in the manifest.
+<% } %>
