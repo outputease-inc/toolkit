@@ -1,0 +1,30 @@
+{
+  "name": "<%= it.projectName %>",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "prepare": "simple-git-hooks",
+    "build": "<%= it.pm.exec %> turbo run build",
+    "dev": "<%= it.pm.exec %> turbo run dev",
+    "lint": "<%= it.pm.exec %> turbo run lint",
+    "format": "<%= it.pm.exec %> turbo run format",
+    "typecheck": "<%= it.pm.exec %> turbo run typecheck",
+    "test": "<%= it.pm.exec %> turbo run test",
+    "clean": "<%= it.pm.exec %> turbo run clean"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "<%= it.pm.exec %> commitlint --edit $1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "simple-git-hooks": "^2.11.0",
+    "turbo": "^2.0.0",
+    "@biomejs/biome": "^2.0.0",
+    "typescript": "^5.7.0"
+  }<% if (it.pm.name !== "npm" && it.pm.name !== "yarn") { %>,
+  "packageManager": "<%= it.pm.packageManagerField %>"<% } %>
+}

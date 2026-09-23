@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+<% if (it.frameworkConfig.framework === "bun-cli") { %>
+    "lib": ["ES2022"],
+<% } else { %>
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+<% } %>
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+<% if (it.frameworkConfig.framework === "next.js") { %>
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "@/*": ["./*"]
+    }
+<% } else if (it.frameworkConfig.framework === "bun-cli") { %>
+    "types": ["bun-types"]
+<% } else { %>
+    "jsx": "react-jsx"
+<% } %>
+  },
+<% if (it.frameworkConfig.framework === "next.js") { %>
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+<% } else if (it.frameworkConfig.framework === "bun-cli") { %>
+  "include": ["src/**/*.ts"],
+<% } else { %>
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+<% } %>
+  "exclude": ["node_modules"]
+}
